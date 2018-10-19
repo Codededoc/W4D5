@@ -18,15 +18,9 @@ RSpec.describe UsersController, type: :controller do
     let(:invalid_params) {{user: {hello: 'hello', password: 'hogwarts'} } }
 
     context 'with valid params' do
-      it 'should login user' do
-        post :create, params: valid_params
-
-        expect(User.last.username).to eq 'Ginny'
-        expect(log_in!(:user)).to receive(:reset_session_token!)
-      end
       it 'should redirect to login page' do
-        expect(response).to redirect_to(new_session_url)
-
+        post :create, params: valid_params
+        expect(response).to redirect_to(user_url(User.last.id))
       end
     end
 
